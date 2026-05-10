@@ -505,6 +505,8 @@ class CompiledApp {
       _1435: x0 => new Float32Array(x0),
       _1437: x0 => new Float64Array(x0),
       _1461: x0 => x0.random(),
+      _1462: (x0,x1) => x0.getRandomValues(x1),
+      _1463: () => globalThis.crypto,
       _1464: () => globalThis.Math,
       _1477: (ms, c) =>
       setTimeout(() => dartInstance.exports.$invokeCallback(c),ms),
@@ -595,6 +597,18 @@ class CompiledApp {
       },
       _1523: (jsArray, jsArrayOffset, wasmArray, wasmArrayOffset, length) => {
         const setValue = dartInstance.exports.$wasmI8ArraySet;
+        for (let i = 0; i < length; i++) {
+          setValue(wasmArray, wasmArrayOffset + i, jsArray[jsArrayOffset + i]);
+        }
+      },
+      _1524: (jsArray, jsArrayOffset, wasmArray, wasmArrayOffset, length) => {
+        const getValue = dartInstance.exports.$wasmI16ArrayGet;
+        for (let i = 0; i < length; i++) {
+          jsArray[jsArrayOffset + i] = getValue(wasmArray, wasmArrayOffset + i);
+        }
+      },
+      _1525: (jsArray, jsArrayOffset, wasmArray, wasmArrayOffset, length) => {
+        const setValue = dartInstance.exports.$wasmI16ArraySet;
         for (let i = 0; i < length; i++) {
           setValue(wasmArray, wasmArrayOffset + i, jsArray[jsArrayOffset + i]);
         }
@@ -716,6 +730,7 @@ class CompiledApp {
       _1620: o => o instanceof Float64Array,
       _1621: (o, start, length) => new Float64Array(o.buffer, o.byteOffset + start, length),
       _1622: (t, s) => t.set(s),
+      _1623: l => new DataView(new ArrayBuffer(l)),
       _1624: (o) => new DataView(o.buffer, o.byteOffset, o.byteLength),
       _1626: o => o.buffer,
       _1627: o => o.byteOffset,
